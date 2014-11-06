@@ -1,1 +1,12 @@
-../../GalaxyMaster.X/init.h
+// File:   init.h
+// Author: argyle
+// Created on November 1, 2014, 3:10 PM
+
+#ifndef INIT_H
+#define	INIT_H
+
+  // Prototypes
+  void HardwareInit(void);
+
+#endif	/* INIT_H */
+

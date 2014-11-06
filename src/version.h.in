@@ -1,1 +1,15 @@
-../../GalaxyMaster.X/version.h.in
+// File:   version.h.in
+// Note:   Configured during build.
+// Author: argyle
+// Created on October 31, 2014, 3:55 PM
+
+#ifndef VERSION_H
+#define	VERSION_H
+
+#define MAJOR_VERSION "@EMULATOR_VERSION_MAJOR@"
+#define MINOR_VERSION "@EMULATOR_VERSION_MINOR@"
+#define PATCH_VERSION "@EMULATOR_VERSION_PATCH@"
+#define TWEAK_VERSION "@EMULATOR_VERSION_TWEAK@"
+
+#endif	/* VERSION_H */
+
