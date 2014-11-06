@@ -1,0 +1,1 @@
+../../GalaxyMaster.X/galaxyConfig.h

@@ -1,0 +1,1 @@
+../../GalaxyMaster.X/patternSupport.h
