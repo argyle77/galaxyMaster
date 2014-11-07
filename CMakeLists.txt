@@ -5,13 +5,18 @@ cmake_minimum_required(VERSION 2.6)
 # This can be read from ${PROJECT_NAME} after project() is called
 project(galaxyEmulator)
 
-# Let's set a version number.
+# Let's set a version number.  This is based on Semantic Versioning 2.0.0,
+# found at http://semver.org/
 set (EMULATOR_VERSION_MAJOR 0)
 set (EMULATOR_VERSION_MINOR 4)
 set (EMULATOR_VERSION_PATCH 0)
-set (EMULATOR_VERSION_TWEAK 20141107)
+set (EMULATOR_VERSION_PRERELEASE 20141107)
 
-message(STATUS "Configuring build version " ${EMULATOR_VERSION_MAJOR}.${EMULATOR_VERSION_MINOR}.${EMULATOR_VERSION_PATCH}.${EMULATOR_VERSION_TWEAK})
+if ("${EMULATOR_VERSION_PRERELEASE}" STREQUAL "")
+  message(STATUS "Configuring build version " ${EMULATOR_VERSION_MAJOR}.${EMULATOR_VERSION_MINOR}.${EMULATOR_VERSION_PATCH})
+else()  
+  message(STATUS "Configuring build version " ${EMULATOR_VERSION_MAJOR}.${EMULATOR_VERSION_MINOR}.${EMULATOR_VERSION_PATCH}-${EMULATOR_VERSION_PRERELEASE})
+endif()
 
 # gcc flags
 add_compile_options(-Wall -g)
