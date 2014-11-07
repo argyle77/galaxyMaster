@@ -31,12 +31,13 @@ Hints:
 When looking at this code, keep in mind, there are two build targets.  One of
 them is the PIC microcontroller on the galaxy itself.  The other is the so-
 called Emulator target.  This file gives instructions on building the emulator
-target. Emulator code is demarcated in the source files using the c pre-processor
-definition, "EMULATOR" (source enclosed in #ifdef EMULATOR / #endif), which
-the cmake build process automatically activates.  It is sort of like having two
-overlapping programs that share a lot of common code.  The emulator outputs the
-patterns to a window so that you can see a preview without needing the galaxy
-hardware on hand.  I've broken the code into several files.  Here is a manifest:
+target. Emulator code is demarcated in the source files using the c pre-
+processor definition, "EMULATOR" (source enclosed in #ifdef EMULATOR / #endif), 
+which the cmake build process automatically activates.  It is sort of like 
+having two overlapping programs that share a lot of common code.  The emulator 
+outputs the patterns to a window so that you can see a preview without needing 
+the galaxy hardware on hand.  I've broken the code into several files.  Here 
+is a manifest:
 
 
 README.txt - This file. The project build instructions and the file manifest.
