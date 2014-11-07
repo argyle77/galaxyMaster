@@ -7,15 +7,18 @@ project(galaxyEmulator)
 
 # Let's set a version number.  This is based on Semantic Versioning 2.0.0,
 # found at http://semver.org/
+# I'm told there are techniques to use the git versioning information to create 
+# version numbers, but we won't do that here.  This file must be manually 
+# changed to effect that change.
 set (EMULATOR_VERSION_MAJOR 0)
 set (EMULATOR_VERSION_MINOR 4)
 set (EMULATOR_VERSION_PATCH 0)
-set (EMULATOR_VERSION_PRERELEASE 20141107)
+set (EMULATOR_VERSION_PRERELEASE)
 
 if ("${EMULATOR_VERSION_PRERELEASE}" STREQUAL "")
-  message(STATUS "Configuring build version " ${EMULATOR_VERSION_MAJOR}.${EMULATOR_VERSION_MINOR}.${EMULATOR_VERSION_PATCH})
+  message(STATUS "Configuring build version v" ${EMULATOR_VERSION_MAJOR}.${EMULATOR_VERSION_MINOR}.${EMULATOR_VERSION_PATCH})
 else()  
-  message(STATUS "Configuring build version " ${EMULATOR_VERSION_MAJOR}.${EMULATOR_VERSION_MINOR}.${EMULATOR_VERSION_PATCH}-${EMULATOR_VERSION_PRERELEASE})
+  message(STATUS "Configuring build version v" ${EMULATOR_VERSION_MAJOR}.${EMULATOR_VERSION_MINOR}.${EMULATOR_VERSION_PATCH}-${EMULATOR_VERSION_PRERELEASE})
 endif()
 
 # gcc flags

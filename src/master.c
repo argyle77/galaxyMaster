@@ -129,7 +129,11 @@ int main (void) {
   GeneratePixelMap(INITIAL_WINDOW_WIDTH, INITIAL_WINDOW_HEIGHT);
 
   // Print version information.
-  printf("Galaxy Emulator - Version %s.%s.%s.%s\n", MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION, TWEAK_VERSION);
+  if (strlen(PRERELEASE_VERSION) == 0) {
+    printf("Galaxy Emulator v%s.%s.%s\n", MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION);
+  } else {
+    printf("Galaxy Emulator v%s.%s.%s-%s\n", MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION, PRERELEASE_VERSION);
+  }
   printf("Keys: ESC, <ctrl> c, q - Quit\n");
   printf("      +                - Increase emulation speed\n");
   printf("      -                - Decrease emulation speed\n");

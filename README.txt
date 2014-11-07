@@ -3,7 +3,7 @@ To make this project in a build directory separate from the source:
 1) Extract the archive somewhere convenient (like your home directory or Desktop):
   tar -zxvf galaxyEmulator-0.4.0.20141104.tgz
   
-  Or, if using git:
+  Or, if using git (preferred method):
   git clone https://github.com/argyle77/galaxyMaster.git EmulatorTarget
 
 2) Enter the extracted directory and make a build directory.
@@ -42,7 +42,7 @@ is a manifest:
 
 README.txt - This file. The project build instructions and the file manifest.
 CMakeLists.txt - These files contain the cmake build instructions. Don't worry
-    about them.
+    about them unless you want to change the version numbers.
 version.h.in - Totally unimportant.  Used for versioning.
 deviceConfig.h - Lots of defines for setting up the PIC hardware.  Not important
     for writing pattern code.
