@@ -19,4 +19,5 @@ void HardwareInit(void) {
             BAUDMODE, BAUDVALUE_X);
 
 #endif /* EMULATE */
+
 }

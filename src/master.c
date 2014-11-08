@@ -46,7 +46,7 @@ void Delay (long int d);
 
 // Types
 typedef struct { int x, y; } emuPoint_t;
-typedef enum { DOEXIT, DONOTHING, DONEXTPATTERN } inputCommand_e;
+typedef enum { DOEXIT, DONOTHING, DONEXTPATTERN, DOPAUSE } command_e;
 
 // Defines
 #define MARGIN_PERCENTAGE 0.08     // Margin around the galaxy diagram.
@@ -57,19 +57,17 @@ typedef enum { DOEXIT, DONOTHING, DONEXTPATTERN } inputCommand_e;
 // Globals
 SDL_Window *sdlWindow = NULL;
 SDL_Renderer *sdlRenderer = NULL;
-volatile unsigned char timerRunning = FALSE;
 emuPoint_t pixelMap[PIXEL_COUNT];
 int delayMultiplier = 10;
-unsigned char pause = FALSE;
 
 // Prototypes
-inputCommand_e HandleEvents(void);
+command_e HandleEvents(void);
 void GeneratePixelMap(int w, int h);
-void UpdateEmuOutput(galaxyData_t *gData, galaxyMap_e map);
+void UpdateEmuOutput(galaxyData_t *gData, outputMapping_e mapType);
 Uint32 ExpireTimer(Uint32 interval, void *param);
 void DelayINSTR(int instructionCount);
 void DelayMS(int ms);
-void WindowTitle(void);
+void WindowTitle(int dMult);
 
 #endif /* EMULATE */
 
@@ -118,14 +116,14 @@ int main (void) {
   }
 
   // Set the window title
-  WindowTitle();
+  WindowTitle(delayMultiplier);
 
   // Clear the window to black.
   SDL_SetRenderDrawColor(sdlRenderer, 0, 0, 0, 255);
   SDL_RenderClear(sdlRenderer);
   SDL_RenderPresent(sdlRenderer);
 
-  // Set up the pixel map coordinates - must be redone on resize.
+  // Generate the output pixel map
   GeneratePixelMap(INITIAL_WINDOW_WIDTH, INITIAL_WINDOW_HEIGHT);
 
   // Print version information.
@@ -158,10 +156,10 @@ void GeneratePattern(galaxyData_t *galaxy) {
   // Vars
   int pattern = 0;
   int initial = TRUE;
-  galaxyMap_e currentMap = MAP_FULL;
+  outputMapping_e currentOutputMap = MAP_FULL;
   long int timer = 0;
 #ifdef EMULATE
-  inputCommand_e doCommand = DONOTHING;
+  unsigned char pause = FALSE;
 #endif /* EMULATE */
 
   // Set the initial pixel state to all black.
@@ -172,30 +170,42 @@ void GeneratePattern(galaxyData_t *galaxy) {
 
 #ifdef EMULATE
     // Handle keyboard and window events.
-    doCommand = HandleEvents();
-    if (doCommand == DOEXIT) return;
-    if (doCommand == DONEXTPATTERN) {
-      pattern = rand() % PATTERN_COUNT;
-      initial = TRUE;
-      timer = 0;
-      // printf("Pattern: %i\n", pattern);
+    switch(HandleEvents()) {
+      case DOEXIT:
+        return;  // Return to the main function for exit.
+      case DONEXTPATTERN:
+        // Pick a new pattern.
+        pattern = rand() % PATTERN_COUNT;
+        initial = TRUE;
+        timer = 0;
+        // printf("Pattern: %i\n", pattern);
+        break;
+      case DOPAUSE:
+        pause = pause ? FALSE : TRUE;
+        WindowTitle(pause ? 1000000 : delayMultiplier);  // Kludge
+        break;
+      case DONOTHING:
+      default:
+        break;
     }
 
     // Write to the emulator output.
-    UpdateEmuOutput(galaxy, currentMap);
+    UpdateEmuOutput(galaxy, currentOutputMap);
 
-    if (pause) {
-      continue; // Restart the FOREVER loop.
-    }
-#endif /* EMULATE */
+    // If paused, restart (continue) the FOREVER loop without further processing.
+    if (pause) continue; 
+
+#else /* EMULATE */
     
     // Write to the serial port.
-    WriteLights(galaxy, currentMap);
+    WriteLights(galaxy, currentOutputMap);
+
+#endif /* EMULATE */
 
     // Run the selected pattern from the patternFunctions array.
-    patternList[pattern].patternFunction(galaxy, initial, &currentMap);
+    patternList[pattern].patternFunction(galaxy, initial, &currentOutputMap);
 
-    // Was set for the first pass, but can be unset now.
+    // Set for the first pass when a new pattern is chosen, but can be unset now.
     initial = FALSE;  
 
     // Have we run the pattern long enough?
@@ -235,11 +245,11 @@ void Delay(long int d) {
 
 
 // Handle messages from the SDL framework for keyboard and window events.
-inputCommand_e HandleEvents(void) {
+command_e HandleEvents(void) {
   
   // Vars
   SDL_Event event;
-  inputCommand_e returnValue = DONOTHING;
+  command_e returnValue = DONOTHING;
 
   // Events that occured in SDL (button pushes, window resize, etc) are stored
   // in a queue as they happen.  SDL_PollEvent grabs the first event off the
@@ -270,7 +280,7 @@ inputCommand_e HandleEvents(void) {
           if (delayMultiplier < 0) {
             delayMultiplier = 0;
           }
-          WindowTitle();
+          WindowTitle(delayMultiplier);
           // printf("Delay Multiplier: %f\n", delayMultiplier / 10.0);
         }
 
@@ -281,7 +291,7 @@ inputCommand_e HandleEvents(void) {
           if (delayMultiplier > 100) {
             delayMultiplier = 100;
           }
-          WindowTitle();
+          WindowTitle(delayMultiplier);
           // printf("Delay Multiplier: %4.1f\n", delayMultiplier / 10.0);
         }
 
@@ -289,7 +299,7 @@ inputCommand_e HandleEvents(void) {
         if ((event.key.keysym.sym == SDLK_0) ||
             (event.key.keysym.sym == SDLK_KP_0)) {
           delayMultiplier = 10;
-          WindowTitle();
+          WindowTitle(delayMultiplier);
           // printf("Delay Multiplier: %4.1f\n", delayMultiplier / 10.0);
         }
 
@@ -300,8 +310,7 @@ inputCommand_e HandleEvents(void) {
 
         // p pauses the simulation.
         if (event.key.keysym.sym == SDLK_p) {
-          pause = pause ? FALSE : TRUE;
-          WindowTitle();
+          returnValue = DOPAUSE;
         }
         
         break;
@@ -375,7 +384,7 @@ void GeneratePixelMap(int w, int h) {
 
 // This is the emulator's version of WriteLights.  The output window is updated
 // here.  TODO: Reparameterize -> PIXELS_PER_ARM should come from (gData->size / 2).
-void UpdateEmuOutput(galaxyData_t *gData, galaxyMap_e map) {
+void UpdateEmuOutput(galaxyData_t *gData, outputMapping_e map) {
 
   // Vars
   int i;
@@ -437,12 +446,19 @@ void DelayMS(int time_ms) {
 
   // Vars
   SDL_TimerID timerID;
+  volatile unsigned char timerRunning;
+
+  // Note, timerRunning must be declared volatile.  This is a rule for any
+  // variable altered in an interrupt.  It tells the compiler's optimizer not to
+  // remove checks on it from blocks of code that don't alter it (like our
+  // while(timerRunning) block below).
 
   // Factor in the emulation speed.
   time_ms = time_ms * (delayMultiplier / 10.0);
+  
   // Set the timer.
   timerRunning = TRUE;
-  timerID = SDL_AddTimer(time_ms, ExpireTimer, NULL);
+  timerID = SDL_AddTimer(time_ms, ExpireTimer, (void *) &timerRunning);
 
   // Wait until it expires.
   // while(timerRunning) ; //  This works, but uses 100% CPU.
@@ -465,12 +481,10 @@ void DelayINSTR(int instructionCount) {
 
 
 // Timer expiration callback.  
-Uint32 ExpireTimer(Uint32 interval, void *param) {
-  // Note, timerRunning must be declared volatile.  This is a rule for any
-  // variable altered in an interrupt.  It tells the compiler optimizer not to
-  // remove any checks on it from blocks of code that don't alter it, which can
-  // happen with other variables during optimization.
-  timerRunning = FALSE;
+Uint32 ExpireTimer(Uint32 interval, void *timerFlag) {
+
+  // Clear the timer flag
+  *(unsigned char *)timerFlag = FALSE;
 
   // This tells the timer not to restart.  A repeating timer can be set up by
   // providing the time in ms to wait for next in the return statement here.
@@ -479,20 +493,14 @@ Uint32 ExpireTimer(Uint32 interval, void *param) {
 
 
 // Updates the title of the window with the speed.
-void WindowTitle(void) {
+void WindowTitle(int dMult) {
   // Vars
   char windowTitle[] = "Galaxy Emulator - xxxx.x%  ";
 
   // Build the title string.
-  if (!pause) {
-    snprintf(windowTitle, sizeof(windowTitle),
+  snprintf(windowTitle, sizeof(windowTitle),
            "Galaxy Emulator - %5.1f%%",
-           (10.0 / delayMultiplier) * 100);
-  } else {
-    snprintf(windowTitle, sizeof(windowTitle),
-           "Galaxy Emulator - %5.1f%%",
-           0.0);
-  }
+           (10.0 / dMult) * 100);
 
   // Set it.
   SDL_SetWindowTitle(sdlWindow, windowTitle);

@@ -6,21 +6,6 @@
 #include "deviceConfig.h"
 #include "display.h"
 
-
-// Global constants
-// Variable chipAddressMap is a map of the slave chip addresses.  These values
-// were originally chosen because the initial pattern generation platform did
-// not properly support 9 bit serial addressing or switching on the fly between
-// MARK and SPACE parity.  I had to use ODD parity with 8 data bits to emulate
-// the 9 bit serial scheme that the PIC slaves use to distinguish data bytes
-// from address bytes in serial communications.  The addresses below, therefore,
-// all have the same parity to indicate that they are addresses.  The data
-// bytes (at the time) had to be constrained to avoid this parity (effectively
-// eliminating 1/2 the available intensity values. Thankfully, this is no longer
-// the case, however, the addresses remain as an artifact of the earlier
-// situation.
-const unsigned char chipAddressMap[] = {0x03, 0x05, 0x06, 0x09, 0x0a, 0x12, 0x11, 0x0f, 0x0c};
-
 // Prototypes
 void TransmitAddress(unsigned char value);
 void TransmitData(unsigned char value);
@@ -43,8 +28,20 @@ void TransmitData(unsigned char value);
 // all patterns are written.  For now, the emulation will set a timer to wait
 // for the transmission time so that the output more closely matches the PIC
 // target output.
-void WriteLights(galaxyData_t *gData, galaxyMap_e map) {
+void WriteLights(galaxyData_t *gData, outputMapping_e mapType) {
   int i;
+  // Variable chipAddressMap is a map of the slave chip addresses.  These values
+  // were originally chosen because the initial pattern generation platform did
+  // not properly support 9 bit serial addressing or switching on the fly between
+  // MARK and SPACE parity.  I had to use ODD parity with 8 data bits to emulate
+  // the 9 bit serial scheme that the PIC slaves use to distinguish data bytes
+  // from address bytes in serial communications.  The addresses below, therefore,
+  // all have the same parity to indicate that they are addresses.  The data
+  // bytes (at the time) had to be constrained to avoid this parity (effectively
+  // eliminating 1/2 the available intensity values. Thankfully, this is no longer
+  // the case, however, the addresses remain as an artifact of the earlier
+  // situation.
+  const unsigned char chipAddressMap[] = {0x03, 0x05, 0x06, 0x09, 0x0a, 0x12, 0x11, 0x0f, 0x0c};
 
   // First 15 leds. (5 triplets) - 16 bytes.
   TransmitAddress(chipAddressMap[0]);
@@ -85,7 +82,7 @@ void WriteLights(galaxyData_t *gData, galaxyMap_e map) {
     TransmitData(gData->pixels[0]->b);
     TransmitData(gData->pixels[0]->r);
 
-  if (map == MAP_MIRROR) {
+  if (mapType == MAP_MIRROR) {
     TransmitData(gData->pixels[0]->g);
     TransmitData(gData->pixels[0]->b);
     TransmitData(gData->pixels[0]->r);
@@ -96,7 +93,7 @@ void WriteLights(galaxyData_t *gData, galaxyMap_e map) {
   }
 
   // First 15 leds. (5 triplets)  - 16 bytes
-  if (map == MAP_MIRROR) {
+  if (mapType == MAP_MIRROR) {
   TransmitAddress(chipAddressMap[8]);
   for (i = 20; i > 15; i--) {
     TransmitData(gData->pixels[i]->g);

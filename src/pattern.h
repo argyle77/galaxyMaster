@@ -7,18 +7,18 @@
 
 
 // Pattern functions should all have the same signature.
-void FaderMovingSeam(galaxyData_t *galaxy, unsigned char initial, galaxyMap_e *map);
-void RGBSharpRotate(galaxyData_t *galaxy, unsigned char initial, galaxyMap_e *map);
-void RainbowFader(galaxyData_t *galaxy, unsigned char initial, galaxyMap_e *map);
-void SequenceTest(galaxyData_t *galaxy, unsigned char initial, galaxyMap_e *map);
-void VariableStrobe(galaxyData_t *galaxy, unsigned char initial, galaxyMap_e *map);
-void RandomMarquee(galaxyData_t *galaxy, unsigned char initial, galaxyMap_e *map);
+void FaderMovingSeam(galaxyData_t *galaxy, unsigned char initial, outputMapping_e *map);
+void RGBSharpRotate(galaxyData_t *galaxy, unsigned char initial, outputMapping_e *map);
+void RainbowFader(galaxyData_t *galaxy, unsigned char initial, outputMapping_e *map);
+void SequenceTest(galaxyData_t *galaxy, unsigned char initial, outputMapping_e *map);
+void VariableStrobe(galaxyData_t *galaxy, unsigned char initial, outputMapping_e *map);
+void RandomMarquee(galaxyData_t *galaxy, unsigned char initial, outputMapping_e *map);
 
 
 // This struct contains a pointer to a pattern function and the number of times
 // to run that pattern.
 typedef struct {
-  void (*patternFunction)(galaxyData_t *, unsigned char, galaxyMap_e *);
+  void (*patternFunction)(galaxyData_t *, unsigned char, outputMapping_e *);
   long int iterations;
 } pattern_t;
 

@@ -7,7 +7,6 @@
 #include "patternSupport.h"
 #include "galaxyConfig.h"
 #include "pattern.h"
-#include "init.h"
 #include <stdlib.h>       // rand()
 
 // Coefficients - Pattern adjustments
@@ -28,7 +27,7 @@
 // each step, increase or decrease the brightness value of each pixel in the
 // array, allowing the value to roll over the limits (0-255).  This creates a
 // smoothly varying background with a travelling seam.
-void FaderMovingSeam(galaxyData_t *galaxy, unsigned char initial, galaxyMap_e *map) {
+void FaderMovingSeam(galaxyData_t *galaxy, unsigned char initial, outputMapping_e *map) {
   static colorChannel_e colorChannel = 0;
   static unsigned char fadeDirection = 0;
   int i;
@@ -58,7 +57,7 @@ void FaderMovingSeam(galaxyData_t *galaxy, unsigned char initial, galaxyMap_e *m
 
 // RGBSharpRotate - Initially fill the array with the pattern RGBRGB,...
 // On each step, rotate the pattern down (or up) the arms.
-void RGBSharpRotate(galaxyData_t *galaxy, unsigned char initial, galaxyMap_e *map) {
+void RGBSharpRotate(galaxyData_t *galaxy, unsigned char initial, outputMapping_e *map) {
   int i;
   static sMode_e shiftDirection = SHIFT_POSITIVE;
 
@@ -104,7 +103,7 @@ void RGBSharpRotate(galaxyData_t *galaxy, unsigned char initial, galaxyMap_e *ma
 // RainbowFader - Red, Yellow, Green, Cyan, Blue, Magenta, repeat.
 // Fader works by coloring the first pixel (using the last pixel's value),
 // but then shifting the entire array down the arm.
-void RainbowFader(galaxyData_t *galaxy, unsigned char initial, galaxyMap_e *map) {
+void RainbowFader(galaxyData_t *galaxy, unsigned char initial, outputMapping_e *map) {
   static int transition = 0;
 
   if (initial) {
@@ -201,7 +200,7 @@ void RainbowFader(galaxyData_t *galaxy, unsigned char initial, galaxyMap_e *map)
 
 
 // SequenceTest - Shift a single pixel of color across the array.
-void SequenceTest(galaxyData_t *galaxy, unsigned char initial, galaxyMap_e *map) {
+void SequenceTest(galaxyData_t *galaxy, unsigned char initial, outputMapping_e *map) {
 
   static sMode_e shiftDir = SHIFT_NEGATIVE;
 
@@ -229,7 +228,7 @@ void SequenceTest(galaxyData_t *galaxy, unsigned char initial, galaxyMap_e *map)
 // VarStrobe - Color strobe with changing frequency.  Chooses a color to strobe,
 // then goes between it and black at every step while sweeping the delay time
 // up and down to change the frequency.
-void VariableStrobe(galaxyData_t *galaxy, unsigned char initial, galaxyMap_e *map) {
+void VariableStrobe(galaxyData_t *galaxy, unsigned char initial, outputMapping_e *map) {
   static unsigned char phase = 0;
   static int strobeDelay = 0, delayStep = 0;
   static color_t tmp;
@@ -271,7 +270,7 @@ void VariableStrobe(galaxyData_t *galaxy, unsigned char initial, galaxyMap_e *ma
 
 
 // Scroll a sequence of random colors across the array in a random direction.
-void RandomMarquee(galaxyData_t *galaxy, unsigned char initial, galaxyMap_e *map) {
+void RandomMarquee(galaxyData_t *galaxy, unsigned char initial, outputMapping_e *map) {
   static cMode_e colorMode;
   static sMode_e direction;
 

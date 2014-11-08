@@ -82,7 +82,7 @@
 
   // Prototypes
   void FadeChannel(galaxyData_t *galaxy, colorChannel_e channel, int amount, aMode_e mode);
-  void Shift(galaxyData_t *galaxy, sMode_e dir, galaxyMap_e map);
+  void Shift(galaxyData_t *galaxy, sMode_e dir, outputMapping_e map);
   void ColorAll(galaxyData_t *galaxy, color_t color);
   color_t GetRandomColor(cMode_e getColorMode);
   

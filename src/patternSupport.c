@@ -2,7 +2,6 @@
 // 2014_11_01
 // Simple galaxy array manipulations for pattern support.
 
-#include "deviceConfig.h"
 #include "patternSupport.h"
 #include <stdlib.h> // rand();
 
@@ -55,7 +54,7 @@ void ColorAll(galaxyData_t *galaxy, color_t color) {
 
 
 // Rotate the pixels down the arms based on the given map.
-void Shift(galaxyData_t *galaxy, sMode_e dir, galaxyMap_e map) {
+void Shift(galaxyData_t *galaxy, sMode_e dir, outputMapping_e map) {
   color_t tmp1, tmp2;
   int i;
 
