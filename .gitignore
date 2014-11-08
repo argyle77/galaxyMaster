@@ -1,0 +1,2 @@
+# Don't include the build directory in version control.
+build
