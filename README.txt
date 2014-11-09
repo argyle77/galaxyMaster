@@ -1,3 +1,8 @@
+[Avocamentum Galactica](http://douglasruuska.com/avocamentum-galactica/), the
+galaxy
+
+
+
 To make this project in a build directory separate from the source:
 
 1) Extract the archive somewhere convenient (like your home directory or Desktop):
