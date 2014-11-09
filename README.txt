@@ -133,3 +133,6 @@ PIC18F452 and the XC8 compiler selected and add the source files to your
 project.  There should be no special settings or flags required for compilation
 in this environment.  If you use a different PIC for this project, you'll find
 most of the stuff you need to change in deviceConfig.h
+
+This project's use of git and presence on github are the author's efforts to
+learn to use these tools.
