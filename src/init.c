@@ -1,5 +1,7 @@
-// Joshua Krueger
-// 2014_11_01
+// File init.c
+// Author: Joshua Krueger
+// Created 2014_11_01
+
 // Galaxy master device initialization functions.
 
 #include "init.h"

@@ -1,5 +1,7 @@
-// Joshua Krueger
-// 2014_11_01
+// File: display.c
+// Author: Joshua Krueger
+// Created: 2014_11_01
+
 // Galaxy master display driver.
 
 // Includes

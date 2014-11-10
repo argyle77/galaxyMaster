@@ -1,6 +1,7 @@
 // File:   galaxyConfig.h
 // Author: Joshua Krueger
 // Created on November 1, 2014, 12:34 PM
+
 // Contains galaxy definitions.
 
 #ifndef GALAXY_H

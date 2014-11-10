@@ -1,7 +1,8 @@
 // File:   version.h.in
-// Note:   Configured during build.
-// Author: argyle
+// Author: Joshua Krueger
 // Created on October 31, 2014, 3:55 PM
+
+// Note:   Configured during build.
 
 #ifndef VERSION_H
 #define	VERSION_H
@@ -12,4 +13,3 @@
 #define PRERELEASE_VERSION "@EMULATOR_VERSION_PRERELEASE@"
 
 #endif	/* VERSION_H */
-

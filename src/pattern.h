@@ -1,5 +1,5 @@
 // File:   pattern.h
-// Author: argyle
+// Author: Joshua Krueger
 // Created on November 2, 2014, 8:19 PM
 
 #ifndef PATTERN_H

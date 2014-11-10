@@ -1,5 +1,5 @@
 // File:   manips.h
-// Author: argyle
+// Author: Joshua Krueger
 // Created on November 1, 2014, 4:17 PM
 
 #ifndef MANIPS_H

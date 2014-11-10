@@ -1,5 +1,7 @@
-// Joshua Krueger
-// 2014_11_02
+// File: pattern.c
+// Author: Joshua Krueger
+// Created 2014_11_02
+
 // Galaxy master pattern code.
 
 // Includes

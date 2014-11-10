@@ -1,5 +1,7 @@
-// Joshua Krueger
-// 2014_11_01
+// File:  patternSupport.c
+// Author: Joshua Krueger
+// Created 2014_11_01
+
 // Simple galaxy array manipulations for pattern support.
 
 #include "patternSupport.h"

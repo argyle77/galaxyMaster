@@ -1,6 +1,7 @@
 // File:   deviceConfig.h
-// Author: argyle
+// Author: Joshua Krueger
 // Created on October 29, 2014, 9:02 PM
+
 // Note: Include this header before anything that defines TRUE or FALSE!
 
 #ifndef CONFIG_H

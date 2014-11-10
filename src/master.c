@@ -1,5 +1,7 @@
-// Joshua Krueger
-// 2007_07_01, 2014_10_28
+// File: master.c
+// Author: Joshua Krueger
+// Created: 2007_07_01, 2014_10_28
+
 // Galaxy master code (base).
 // The Galaxy Master is a PIC18F... that is responsible for the pattern
 // generation.  It has (as yet) no inputs, and a single logic-level serial port
