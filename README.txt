@@ -64,21 +64,31 @@ overlapping programs that share a lot of common code. The emulator outputs the
 patterns to a window so that you can see a preview without needing the galaxy 
 hardware on hand. I've broken the code into several files. Here is a manifest:
 
+
 README.txt - This file. The project build instructions and the file manifest.
+
 LICENSE.txt - Copyright notice and license for the project source and
     documentation.
+    
 CMakeLists.txt - These files contain the cmake build instructions. Don't worry
     about them unless you want to change the version numbers.
+    
 version.h.in - Totally unimportant. Used for versioning.
+
 deviceConfig.h - Lots of defines for setting up the PIC hardware. Not important
     for writing pattern code.
+    
 galaxyConfig.h - Definitions specific to the galaxy. Some convenient constants
     and typdefs in here.
+    
 init.h, init.c - PIC hardware initialization functions. Unimportant.
+
 display.h, display.c - Functions to write the pattern out to the LEDs. You won't
     need to change any of this.
+    
 master.c - Contains main(). Calls the pattern generators. You probably won't
     need to change any of this.
+    
 patternSupport.h, patternSupport.c - Contains helper functions that are useful
     in generating patterns. Currently available are:
     FadeChannel - Increases or decreases the intensity of all the LEDs of a
@@ -89,6 +99,7 @@ patternSupport.h, patternSupport.c - Contains helper functions that are useful
     GetRandomColor - Returns a random color in accordance with a selected 
         mode.
     Examples of how these functions are used can be found in pattern.c
+    
 pattern.h, pattern.c - A collection of pattern generation functions. This is
     where you put your pattern code. There are 6 examples already in this
     file. Add new patterns to patternList in pattern.h to get them to run.
