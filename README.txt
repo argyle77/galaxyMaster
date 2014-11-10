@@ -140,7 +140,7 @@ obtaining a copy of MPLAB X IDE:
   http://www.microchip.com/pagehandler/en-us/family/mplabx/
 as well as the XC8 compiler:
   http://www.microchip.com/pagehandler/en-us/devtools/mplabxc/home.html
-both of which are available for multiple operating systems for no charge from
+both of which are available for multiple operating systems at no charge from
 MicroChip. Create a simple Microchip Embedded, standalone project with the
 PIC18F452 and the XC8 compiler selected and add the source files to your 
 project. There should be no special settings or flags required for compilation
